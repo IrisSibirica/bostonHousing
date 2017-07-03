@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">
+  $(function() {
+    var submit_form = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+        crime_rate: $('input[name="crime_rate"]').val(),
+        avg_number_of_rooms: $('input[name="avg_number_of_rooms"]').val(),
+        distance_to_employment_centers: $('input[name="distance_to_employment_centers"]').val(),
+        property_tax_rate: $('input[name="property_tax_rate"]').val(),
+        pupil_teacher_ratio: $('input[name="pupil_teacher_ratio"]').val()
+      }, function(data) {
+        $('#house_value').text(data.house_value);
+        $('#stddev').text(data.stddev);
+        $('input[name=a]').focus().select();
+      });
+      return false;
+    };
+    $('a#calculate').bind('click', submit_form);
+    $('input[type=text]').bind('keydown', function(e) {
+      if (e.keyCode == 13) {
+        submit_form(e);
+      }
+    });
+    $('input[name=a]').focus();
+  });
+</script>
+  <div class=flash>
+<p>
+
+<table>
+<tr><td>crime_rate:  </td><td><input type="text" size="5" name="crime_rate"> </td></tr>
+<tr><td>avg_number_of_rooms:  </td><td><input type="text" size="5" name="avg_number_of_rooms"> </td></tr>
+<tr><td>distance_to_employment_centers:  </td><td><input type="text" size="5" name="distance_to_employment_centers"> </td></tr>
+<tr><td>property_tax_rate:  </td><td><input type="text" size="5" name="property_tax_rate"> </td></tr>
+<tr><td>pupil_teacher_ratio:  </td><td><input type="text" size="5" name="pupil_teacher_ratio"> </td></tr>
+<tr><td>Prediction:  </td><td><span id="house_value">?</span> </td></tr>
+<tr><td>Std:  </td><td><span id="stddev">?</span> </td></tr>
+</table>
+<p><a href=# id="calculate">calculate server side</a>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+MANIFEST.in
+bostonHousing/__init__.py
+bostonHousing/bostonHousing.py
+bostonHousing.egg-info/PKG-INFO
+bostonHousing.egg-info/SOURCES.txt
+bostonHousing.egg-info/dependency_links.txt
+bostonHousing.egg-info/requires.txt
+bostonHousing.egg-info/top_level.txt
+bostonHousing/templates/index.html
+bostonHousing/templates/layout.html
