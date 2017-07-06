@@ -10,7 +10,9 @@
         property_tax_rate: $('input[name="property_tax_rate"]').val(),
         pupil_teacher_ratio: $('input[name="pupil_teacher_ratio"]').val()
       }, function(data) {
+        $('#low').text(data.low);
         $('#house_value').text(data.house_value);
+        $('#up').text(data.up);
         $('#stddev').text(data.stddev);
         $('input[name=a]').focus().select();
       });
@@ -29,13 +31,15 @@
 <p>
 
 <table>
-<tr><td>crime_rate:  </td><td><input type="text" size="5" name="crime_rate"> </td></tr>
-<tr><td>avg_number_of_rooms:  </td><td><input type="text" size="5" name="avg_number_of_rooms"> </td></tr>
-<tr><td>distance_to_employment_centers:  </td><td><input type="text" size="5" name="distance_to_employment_centers"> </td></tr>
-<tr><td>property_tax_rate:  </td><td><input type="text" size="5" name="property_tax_rate"> </td></tr>
-<tr><td>pupil_teacher_ratio:  </td><td><input type="text" size="5" name="pupil_teacher_ratio"> </td></tr>
+<tr><td>crime_rate:  </td><td><input type="text" size="5" name="crime_rate" value = 0.1></td></tr>
+<tr><td>avg_number_of_rooms:  </td><td><input type="text" size="5" name="avg_number_of_rooms" value=4.0> </td></tr>
+<tr><td>distance_to_employment_centers:  </td><td><input type="text" size="5" name="distance_to_employment_centers" value = 6.5> </td></tr>
+<tr><td>property_tax_rate:  </td><td><input type="text" size="5" name="property_tax_rate" value = 330.0></td></tr>
+<tr><td>pupil_teacher_ratio:  </td><td><input type="text" size="5" name="pupil_teacher_ratio" value =  19.5></td></tr>
+<tr><td>2.5% lower limit:  </td><td><span id="low">?</span> </td></tr>
 <tr><td>Prediction:  </td><td><span id="house_value">?</span> </td></tr>
-<tr><td>Std:  </td><td><span id="stddev">?</span> </td></tr>
+<tr><td>97.5% upper limit:  </td><td><span id="up">?</span> </td></tr>
+<tr><td>Standard deviation:  </td><td><span id="stddev">?</span> </td></tr>
 </table>
 <p><a href=# id="calculate">calculate server side</a>
 </div>

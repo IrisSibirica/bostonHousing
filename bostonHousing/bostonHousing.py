@@ -34,19 +34,21 @@ def add_numbers():
     e = request.args.get('pupil_teacher_ratio', 0, type=int)
     M = np.array([a, b, c, d, e])
     prediction = list(model.predict(M))
-    err_down, err_up = pred_ints(model, M)
-    return jsonify({'house_value': "%.2f" % prediction[0], 'stddev': err_down[0]})
+    err_down, err_up, stddev = pred_ints(model, M)
+    return jsonify({'low': "%.2f" % err_down[0], 'house_value': "%.2f" % prediction[0], 'up': "%.2f" % err_up[0], 'stddev': "%.2f" % stddev[0]})
 
 
 def pred_ints(model, X, percentile=95):
+    stddev = []
     err_down = []
     err_up = []
     preds = []
     for pred in model.estimators_:
         preds.append(pred.predict(X)[0])
+    stddev.append(np.std(preds))
     err_down.append(np.percentile(preds, (100 - percentile) / 2. ))
     err_up.append(np.percentile(preds, 100 - (100 - percentile) / 2.))
-    return err_down, err_up
+    return err_down, err_up, stddev
 
 @app.route('/predict', methods=['POST'])
 def post():
@@ -62,8 +64,8 @@ def post():
             df = query.values.reshape((-1, 5))
 
             prediction = list(model.predict(df))
-            err_down, err_up = pred_ints(model, df)
-            return jsonify({'down': err_down, 'prediction': "%.2f" % prediction[0], 'up': err_up})
+            err_down, err_up, stddev = pred_ints(model, df)
+            return jsonify({'lower limit': err_down[0], 'prediction': "%.2f" % prediction[0], 'upper limit': err_up[0], 'stddev': "%.2f" % stddev[0]})
 
         except Exception as e:
             return jsonify({'error': str(e), 'trace': traceback.format_exc()})
